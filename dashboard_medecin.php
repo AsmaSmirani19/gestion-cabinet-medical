@@ -150,13 +150,37 @@ button, .btn {
     padding: 10px 18px;
     font-size: 14px;
     border: none;
-    background: linear-gradient(135deg, #6a11cb , #2575fc);
     color: white;
     border-radius: 12px;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.3s ease, box-shadow 0.3s ease;
     margin-right: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
+
+/* Bouton Confirmer = vert */
+button[name="confirmer"], .btn.confirm {
+    background: linear-gradient(135deg, #28a745, #2ecc71);
+}
+
+/* Bouton Annuler = rouge */
+button[name="annuler"], .btn.cancel {
+    background: linear-gradient(135deg, #e74c3c, #ff4d4d);
+}
+
+/* Hover glow */
+button:hover, .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Icônes dans bouton */
+button i, .btn i {
+    font-size: 16px;
+}
+
 
 button:hover, .btn:hover {
     transform: translateY(-3px);
@@ -164,14 +188,54 @@ button:hover, .btn:hover {
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* ---- TABLE ---- */
+/* --- STYLE TABLE MODERNE --- */
+
 table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(255,255,255,0.9);
+    margin-top: 20px;
+    background: white;
     border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    overflow: hidden; /* nécessaire pour arrondir */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* En-têtes */
+table thead tr {
+    background: #4f7cff; /* bleu moderne */
+    color: white;
+    font-weight: 600;
+}
+
+table thead th {
+    padding: 14px;
+    font-size: 15px;
+}
+
+/* Lignes */
+table tbody tr {
+    border-bottom: 1px solid #eee; /* séparateurs fins */
+}
+
+/* Cellules */
+table td {
+    padding: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Effet hover */
+table tbody tr:hover {
+    background: #f2f6ff; /* léger bleu */
+    transition: 0.2s;
+}
+
+/* Coins arrondis pour le premier et dernier th */
+table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+table thead th:last-child {
+    border-top-right-radius: 12px;
 }
 
 th, td {
@@ -201,6 +265,29 @@ nav a.active {
     border-radius: 8px;
     border: 2px solid rgba(255,255,255,0.6);
 }
+/* --- Alerte moderne --- */
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.alert-warning {
+    background: #fff8e5;
+    color: #b27a00;
+    border-left: 5px solid #f4c542;
+}
+
+.alert i {
+    font-size: 20px;
+}
+
 
 </style>
 </head>
@@ -239,7 +326,9 @@ nav a.active {
                 </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p style="color:red; font-weight:bold;" >Aucun rendez-vous prévu aujourd'hui.</p>
+                <div class="alert alert-warning">
+                    <i class="fa-solid fa-circle-exclamation"></i>Aucun rendez-vous prévu aujourd'hui.</div>
+
             <?php endif; ?>
         </div>
 
@@ -254,13 +343,19 @@ nav a.active {
                     <td><?= htmlspecialchars($row['heure_rdv']) ?></td>
                     <td>
                         <form method="POST" style="display:inline">
-                            <input type="hidden" name="id_rdv" value="<?= intval($row['id_rdv']) ?>">
-                            <button name="confirmer" class="btn">Confirmer</button>
-                        </form>
-                        <form method="POST" style="display:inline">
-                            <input type="hidden" name="id_rdv" value="<?= intval($row['id_rdv']) ?>">
-                            <button name="annuler" class="btn">Annuler</button>
-                        </form>
+    <input type="hidden" name="id_rdv" value="<?= intval($row['id_rdv']) ?>">
+    <button name="confirmer" class="btn confirm">
+        <i class="fa-solid fa-check"></i> Confirmer
+    </button>
+</form>
+
+<form method="POST" style="display:inline">
+    <input type="hidden" name="id_rdv" value="<?= intval($row['id_rdv']) ?>">
+    <button name="annuler" class="btn cancel">
+        <i class="fa-solid fa-xmark"></i> Annuler
+    </button>
+</form>
+
                     </td>
                 </tr>
                 <?php endwhile; ?>
