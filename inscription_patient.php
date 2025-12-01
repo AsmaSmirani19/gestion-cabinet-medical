@@ -66,31 +66,40 @@ $conn->close();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription Patient</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-<h2>Inscription Patient</h2>
+    <div class="container">
+        <h2>Inscription Patient</h2>
+        <form action="inscription_patient.php" method="POST">
+            
+            <div class="input-group">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
 
-<!-- Affichage du message -->
-<?php if($message != "") echo "<p style='color:$message_color;'>$message</p>"; ?>
+            <div class="input-group">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
 
-<!-- Formulaire : action vide pour soumettre sur la même page -->
-<form action="" method="POST">
-    <label for="nom">Nom :</label>
-    <input type="text" name="nom" id="nom" required><br><br>
+            <div class="input-group">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-    <label for="prenom">Prénom :</label>
-    <input type="text" name="prenom" id="prenom" required><br><br>
+            <div class="input-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-    <label for="email">Email :</label>
-    <input type="email" name="email" id="email" required><br><br>
+            <button type="submit">S'inscrire</button>
 
-    <label for="password">Mot de passe :</label>
-    <input type="password" name="password" id="password" required><br><br>
-
-    <button type="submit" name="register">S'inscrire</button>
-</form>
-
-<p>Déjà inscrit ? <a href="login.php">Connectez-vous ici</a></p>
+            <p class="login-link">Déjà inscrit ? <a href="login.php">Connectez-vous</a></p>
+        </form>
+    </div>
 </body>
 </html>
+

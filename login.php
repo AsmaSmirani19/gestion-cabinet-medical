@@ -57,24 +57,34 @@ $conn->close();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" href="style.css"> <!-- Ton CSS -->
 </head>
 <body>
-<h2>Connexion</h2>
+    <div class="container">
+        <h2>Connexion</h2>
 
-<!-- Affichage du message d'erreur -->
-<?php if($error != "") echo "<p style='color:red;'>$error</p>"; ?>
+        <!-- Affichage du message d'erreur -->
+        <?php if(isset($error) && $error != "") echo "<p style='color:red;'>$error</p>"; ?>
 
-<form action="login.php" method="POST">
-    <label for="email">Email :</label>
-    <input type="email" name="email" id="email" required><br><br>
+        <form action="login.php" method="POST">
 
-    <label for="password">Mot de passe :</label>
-    <input type="password" name="password" id="password" required><br><br>
+            <div class="input-group">
+                <label for="email">Email :</label>
+                <input type="email" name="email" id="email" required>
+            </div>
 
-    <button type="submit" name="login">Se connecter</button>
-</form>
+            <div class="input-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password" required>
+            </div>
 
-<p>Pas encore de compte ? <a href="register.php">Inscrivez-vous ici</a></p>
+            <button type="submit" name="login">Se connecter</button>
+        </form>
+
+        <p class="login-link">Pas encore de compte ? <a href="inscription_patient.php">Inscrivez-vous ici</a></p>
+
+    </div>
 </body>
 </html>
