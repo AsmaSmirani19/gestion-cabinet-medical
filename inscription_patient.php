@@ -94,63 +94,56 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion / Inscription - Cabinet Médical</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel = "stylesheet" href ="style_p.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {margin:0;padding:0;box-sizing:border-box;}
-       body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
             color: #1a1a1a;
             line-height: 1.6;
-
             display: flex;
-            justify-content: center; /* horizontal centering */
-            align-items: center;     /* vertical centering */
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-
-            padding: 20px; /* espace autour */
+            padding: 20px;
         }
 
-       /* Wrapper centré */
-            .auth-wrapper {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                min-height: calc(100vh - 40px); /* laisse un petit espace en haut et bas */
-            }
-
-
-       .auth-card {
+        .auth-wrapper {
             display: flex;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: calc(100vh - 40px);
+        }
+
+        .auth-card {
+            display: flex;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
             overflow: hidden;
-            max-width: 1400px;
+            max-width: 1600px; /* Augmentation de la largeur */
             width: 100%;
             position: relative;
         }
 
-
-            .container { 
-                width: 50%;              /* IMPORTANT */
-                min-height: 650px;
-                background: #fff;
-
-                border-radius: 30px;
-                box-shadow: 0 0 30px rgba(0,0,0,0.2);
-                overflow: hidden;
-
-                position: relative;
-                transition: transform 0.9s ease-in-out;
-            }
-
+        .container {
+            width: 50%;
+            min-height: 750px; /* Augmentation de la hauteur */
+            background: #fff;
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.9s ease-in-out;
+        }
 
         .form-wrapper {
             display: flex;
             width: 200%;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s ease;
         }
 
         .form-wrapper.login-active {
@@ -163,67 +156,97 @@ $conn->close();
 
         .form-section {
             width: 50%;
-            padding: 50px; /* Agrandi de 40px à 50px */
+            padding: 60px; /* Augmentation du padding */
             box-sizing: border-box;
         }
 
         .form-section h2 {
             text-align: center;
-            margin-bottom: 30px;
-            color: #00285a;
-            font-size: 2.2rem; /* Agrandi de 2rem à 2.2rem */
+            margin-bottom: 35px;
+            color: #2d3436;
+            font-size: 2.5rem; /* Augmentation de la taille */
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .form-section h2 i {
+            color: rgba(111,177,252,0.75);
+            font-size: 2.8rem;
         }
 
         .input-group {
-            margin-bottom: 25px; /* Agrandi de 20px à 25px */
+            margin-bottom: 30px; /* Augmentation de l'écart */
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 8px; /* Agrandi de 5px à 8px */
-            color: #555;
-            font-weight: 500;
+            margin-bottom: 10px;
+            color: #34495e;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group label i {
+            color: rgba(111,177,252,0.75);
         }
 
         .input-group input {
             width: 100%;
-            padding: 15px; /* Agrandi de 12px à 15px */
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1.1rem; /* Agrandi de 1rem à 1.1rem */
+            padding: 18px; /* Augmentation du padding */
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 16px;
             transition: border-color 0.3s, box-shadow 0.3s;
             box-sizing: border-box;
+            background: #f8f9fa;
         }
 
         .input-group input:focus {
-            border-color: #4fc3f7;
-            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            border-color: rgba(111,177,252,0.75);
+            box-shadow: 0 0 12px rgba(111,177,252,0.5);
             outline: none;
+            background: #fff;
         }
 
         button[type="submit"] {
             width: 100%;
-            padding: 18px; /* Agrandi de 15px à 18px */
-            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+            padding: 20px; /* Augmentation du padding */
+            background: linear-gradient(135deg, #818cf8, #6366f1);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1.2rem; /* Agrandi de 1.1rem à 1.2rem */
+            border-radius: 12px;
+            font-size: 18px; /* Augmentation de la taille */
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
+            box-shadow: 0 6px 20px rgba(99,102,241,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         button[type="submit"]:hover {
-            background: linear-gradient(45deg, #29b6f6, #0277bd);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.6);
+            background: linear-gradient(135deg, #6366f1, #4c1d95);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(99,102,241,0.6);
         }
 
         .message, .error-message {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
             font-weight: 500;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .message {
@@ -236,36 +259,37 @@ $conn->close();
 
         .login-link, .register-link {
             text-align: center;
-            margin-top: 25px; /* Agrandi de 20px à 25px */
-            color: #555;
+            margin-top: 30px;
+            color: #666;
+            font-size: 16px;
         }
 
         .login-link a, .register-link a {
-            color: #4fc3f7;
+            color: rgba(111,177,252,0.75);
             text-decoration: none;
+            font-weight: 600;
             transition: color 0.3s;
         }
 
         .login-link a:hover, .register-link a:hover {
-            color: #0277bd;
+            color: #6366f1;
+            text-decoration: underline;
         }
 
-       .image-space { 
-    width: 50%;              /* IMPORTANT */
-    min-height: 750px;
-    background: 
-        linear-gradient(135deg, rgba(0,40,90,0.6), rgba(0,100,150,0.6)),
-        url("image/ins.jpg") center center no-repeat;
-    background-size: cover;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-
-    position: relative;
-    transition: transform 0.9s ease-in-out;
-}
+        .image-space {
+            width: 50%;
+            min-height: 750px; /* Augmentation de la hauteur */
+            background:
+                linear-gradient(135deg, rgba(111,177,252,0.75), rgba(79,140,255,0.75)),
+                url("image/ins.jpg") center center no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            transition: transform 0.9s ease-in-out;
+        }
 
         .image-space::before {
             content: '';
@@ -274,25 +298,50 @@ $conn->close();
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.15);
+            background: rgba(0,0,0,0.2);
             z-index: 1;
         }
+        
 
         .image-overlay {
             position: relative;
             z-index: 2;
+            text-align: center;
         }
 
         .image-overlay h3 {
-            font-size: 2.5rem; /* Agrandi de 2rem à 2.5rem */
-            margin-bottom: 15px; /* Agrandi de 10px à 15px */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 4rem; /* Augmentation de la taille */
+            font-family:  'Cinzel', serif;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+            font-weight: 650;
         }
 
         .image-overlay p {
-            font-size: 1.2rem; /* Agrandi de 1.1rem à 1.2rem */
-            opacity: 0.9;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 1.5rem; /* Augmentation de la taille */
+            font-family: 'Cinzel', serif;
+            opacity: 1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.69);
+            max-width: 400px;
+            line-height: 1.6;
+
+            white-space: nowrap;   /* empêche le retour à la ligne */
+            max-width: none;
+        }
+
+        .highlight {
+            background: linear-gradient(90deg, #4a38ecff, #b44db9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            font-size: 3.2rem;
+            animation: shine 3s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @media (max-width: 1200px) {
@@ -310,53 +359,33 @@ $conn->close();
             }
             .form-section {
                 width: 100%;
-                padding: 40px; /* Agrandi de 30px à 40px */
+                padding: 50px;
                 flex: 1.3;
             }
             .image-space {
-                min-height: 700px; /* Agrandi de 620px à 700px */
+                min-height: 600px;
                 padding: 20px;
             }
             .image-overlay h3 {
-                font-size: 2rem; /* Agrandi de 1.5rem à 2rem */
+                font-size: 2.5rem;
             }
             .image-overlay p {
-                font-size: 1.1rem; /* Agrandi de 1rem à 1.1rem */
+                font-size: 1.2rem;
             }
         }
 
-        /* ===== SLIDE ANIMATION ===== */
-.auth-card.register-active .container {
-    transform: translateX(100%);
-}
+        .auth-card.register-active .container {
+            transform: translateX(100%);
+        }
 
-.auth-card.register-active .image-space {
-    transform: translateX(-100%);
-}
+        .auth-card.register-active .image-space {
+            transform: translateX(-100%);
+        }
 
-.highlight {
-    background: linear-gradient(90deg, #4fc3f7, #29b6f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: bold;
-    font-size: 2.8rem;
-    animation: shine 2s infinite linear;
-}
-
-/* Animation légère pour l'effet "shine" */
-@keyframes shine {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-
-
-    /* Animation douce */
-    .container,
-    .image-space {
-        transition: transform 0.8s ease, opacity 0.6s ease;
-    }
+        .container,
+        .image-space {
+            transition: transform 0.8s ease, opacity 0.6s ease;
+        }
     </style>
 </head>
 <body>
@@ -367,51 +396,52 @@ $conn->close();
             <div class="form-wrapper login-active" id="formWrapper">
                 <!-- FORMULAIRE LOGIN -->
                 <div class="form-section" id="loginForm">
-                    <h2>Connexion</h2>
+                    <h2><i class="fa-solid fa-sign-in-alt"></i> Connexion</h2>
                     <form action="" method="POST">
                         <div class="input-group">
-                            <label for="email">Email :</label>
-                            <input type="email" name="email" id="email" required>
+                            <label for="email"><i class="fa-solid fa-envelope"></i> Email :</label>
+                            <input type="email" name="email" id="email" placeholder="Entrez votre email" required>
                         </div>
                         <div class="input-group">
-                            <label for="password">Mot de passe :</label>
-                            <input type="password" name="password" id="password" required>
+                            <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe :</label>
+                            <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" required>
                         </div>
-                        <button type="submit" name="login">Se connecter</button>
+                        <button type="submit" name="login"><i class="fa-solid fa-arrow-right"></i> Se connecter</button>
                         <?php if(isset($error) && $error != ""): ?>
-                            <p class="error-message"><?php echo $error; ?></p>
+                            <p class="error-message"><i class="fa-solid fa-exclamation-triangle"></i> <?php echo $error; ?></p>
                         <?php endif; ?>
-                        <p class="register-link">Pas encore de compte ? <a href="#" onclick="switchToRegister(); return false;">Inscrivez-vous ici</a> </p>
+                        <p class="register-link">Pas encore de compte ? <a href="#" onclick="switchToRegister(); return false;"><i class="fa-solid fa-user-plus"></i> Inscrivez-vous ici</a></p>
                     </form>
                 </div>
 
                 <!-- FORMULAIRE INSCRIPTION -->
                 <div class="form-section" id="registerForm">
-                    <h2>Inscription Patient</h2>
+                    <h2><i class="fa-solid fa-user-plus"></i> Inscription Patient</h2>
                     <form action="" method="POST">
                         <div class="input-group">
-                            <label for="nom">Nom :</label>
-                            <input type="text" id="nom" name="nom" required>
+                            <label for="nom"><i class="fa-solid fa-user"></i> Nom :</label>
+                            <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
                         </div>
                         <div class="input-group">
-                            <label for="prenom">Prénom :</label>
-                            <input type="text" id="prenom" name="prenom" required>
+                            <label for="prenom"><i class="fa-solid fa-user"></i> Prénom :</label>
+                            <input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required>
                         </div>
                         <div class="input-group">
-                            <label for="email_reg">Email :</label>
-                            <input type="email" id="email_reg" name="email" required>
+                            <label for="email_reg"><i class="fa-solid fa-envelope"></i> Email :</label>
+                            <input type="email" id="email_reg" name="email" placeholder="Entrez votre email" required>
                         </div>
                         <div class="input-group">
-                            <label for="password_reg">Mot de passe :</label>
-                            <input type="password" id="password_reg" name="password" required>
+                            <label for="password_reg"><i class="fa-solid fa-lock"></i> Mot de passe :</label>
+                            <input type="password" id="password_reg" name="password" placeholder="Choisissez un mot de passe" required>
                         </div>
-                        <button type="submit" name="register">S'inscrire</button>
+                        <button type="submit" name="register"><i class="fa-solid fa-check"></i> S'inscrire</button>
                         <?php if(!empty($message)): ?>
                             <p class="message" style="color: <?= $message_color ?>;">
+                                <i class="fa-solid fa-<?= $message_color == 'green' ? 'check-circle' : 'exclamation-triangle' ?>"></i>
                                 <?= $message ?>
                             </p>
                         <?php endif; ?>
-                        <p class="login-link"> Avez-vous déjà un compte ? <a href="#" onclick="switchToLogin(); return false;">Connectez-vous ici</a></p>
+                        <p class="login-link">Avez-vous déjà un compte ? <a href="#" onclick="switchToLogin(); return false;"><i class="fa-solid fa-sign-in-alt"></i> Connectez-vous ici</a></p>
                     </form>
                 </div>
             </div>
@@ -420,7 +450,8 @@ $conn->close();
         <!-- IMAGE SPACE -->
         <div class="image-space">
             <div class="image-overlay">
-                <h3>Bienvenue <span class="highlight"></span></h3>
+                <h3>Bienvenue au <span class="highlight">Cabinet Médical</span></h3>
+                <p>Prenez soin de votre santé avec nos services modernes et personnalisés. <br> Inscrivez-vous ou connectez-vous pour accéder à votre espace dédié.</p>
             </div>
         </div>
     </div>
@@ -446,8 +477,6 @@ function switchToLogin() {
     authCard.classList.add('login-active');
 }
 </script>
-
-
 
 </body>
 </html>

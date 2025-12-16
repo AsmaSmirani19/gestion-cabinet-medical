@@ -81,8 +81,6 @@ nav a.btn{
     justify-content:center;
 }
 
-
-
 .hero h1{
     font-size:3rem;
     margin-bottom:15px;
@@ -211,6 +209,50 @@ nav a.btn{
     color:white;
 }
 
+/* ===================== À PROPOS ===================== */
+.about{
+    padding:90px 8%;
+    background:white;
+    text-align:center;
+}
+
+.about h2{
+    font-size:2.2rem;
+    margin-bottom:50px;
+    color:var(--dark);
+}
+
+.about-content{
+    max-width:800px;
+    margin:0 auto;
+    line-height:1.8;
+    font-size:1.1rem;
+}
+
+.contact-info{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:30px;
+    margin-top:50px;
+}
+
+.contact-item{
+    background:var(--light);
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+.contact-item i{
+    font-size:40px;
+    color:var(--primary);
+    margin-bottom:15px;
+}
+
+.contact-item h3{
+    margin-bottom:10px;
+    color:var(--dark);
+}
 
 /* ===================== FOOTER ===================== */
 footer{
@@ -224,6 +266,7 @@ footer{
 @media(max-width:768px){
     .hero h1{font-size:2.2rem}
     header{padding:15px 5%}
+    .contact-info{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -232,8 +275,10 @@ footer{
 
 <!-- HERO -->
 <section class="hero">
-    <h1>Cabinet Médicale</h1>
-
+    <div>
+        <h1>Cabinet Médical</h1>
+        <p>Prenez soin de votre santé avec nos services modernes et personnalisés.</p>
+    </div>
 </section>
 
 <!-- ROLES -->
@@ -258,12 +303,40 @@ footer{
             <h3>Espace Médecin</h3>
             <p>Consultations, diagnostics et dossiers patients</p>
         </a>
-
-
-
     </div>
 </section>
 
+<!-- À PROPOS -->
+<section class="about">
+    <h2>À Propos de Nous</h2>
+    <div class="about-content">
+        <p>Notre cabinet médical est dédié à fournir des soins de santé de qualité supérieure, en mettant l'accent sur la prévention, le diagnostic précis et le traitement personnalisé. Avec une équipe de professionnels expérimentés, nous nous engageons à offrir un environnement accueillant et moderne pour tous nos patients.</p>
+        <p>Que vous soyez patient, secrétaire ou médecin, notre plateforme numérique facilite l'accès à vos espaces dédiés pour une gestion optimale de votre santé.</p>
+    </div>
+
+    <div class="contact-info">
+        <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <h3>Email Officiel</h3>
+            <p>contact@cabinetmedical.fr</p>
+        </div>
+        <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <h3>Numéro de Téléphone</h3>
+            <p>+33 1 23 45 67 89</p>
+        </div>
+        <div class="contact-item">
+            <i class="fa-solid fa-map-marker-alt"></i>
+            <h3>Adresse</h3>
+            <p>123 Rue de la Santé<br>75001 Paris, France</p>
+        </div>
+        <div class="contact-item">
+            <i class="fa-solid fa-building"></i>
+            <h3>Adresse Locale</h3>
+            <p>Cabinet Médical Central<br>45 Avenue des Soins<br>75002 Paris, France</p>
+        </div>
+    </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
