@@ -15,30 +15,33 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'patient') {
 $conn = new mysqli("localhost", "root", "", "cabinet_medical");
 if ($conn->connect_error) die("Connexion échouée: " . $conn->connect_error);
 
-$user_id = $_SESSION['id']; // ID de l'utilisateur connecté
+// Récupérer les infos du patient depuis la session
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
 
 // --- Vérifier si le patient existe dans la table patients ---
-$stmt_check = $conn->prepare("SELECT id_patient FROM patients WHERE user_id = ?");
-$stmt_check->bind_param("i", $user_id);
+$stmt_check = $conn->prepare("SELECT id_patient FROM patients WHERE nom = ? AND prenom = ?");
+if (!$stmt_check) die("Erreur prepare: " . $conn->error);
+
+$stmt_check->bind_param("ss", $nom, $prenom);
 $stmt_check->execute();
 $stmt_check->store_result();
 $stmt_check->bind_result($patient_id);
+$stmt_check->fetch();
+$stmt_check->close();
 
-if ($stmt_check->num_rows === 0) {
-    // Patient non enregistré, l'ajouter
-    $stmt_insert = $conn->prepare("INSERT INTO patients (user_id, nom, prenom) VALUES (?, ?, ?)");
-    $stmt_insert->bind_param("iss", $user_id, $nom, $prenom);
+// Si le patient n'existe pas, on l'ajoute
+if (!$patient_id) {
+    $stmt_insert = $conn->prepare("INSERT INTO patients (nom, prenom) VALUES (?, ?)");
+    if (!$stmt_insert) die("Erreur prepare insert: " . $conn->error);
+
+    $stmt_insert->bind_param("ss", $nom, $prenom);
     if (!$stmt_insert->execute()) {
         die("Erreur lors de l'ajout du patient : " . $stmt_insert->error);
     }
-    $patient_id = $conn->insert_id; // récupérer l'id_patient créé
+    $patient_id = $conn->insert_id;
     $stmt_insert->close();
-} else {
-    $stmt_check->fetch();
 }
-$stmt_check->close();
 
 // --- Gérer l'envoi d'une nouvelle demande de rendez-vous ---
 $message = "";
@@ -52,10 +55,7 @@ if (isset($_POST['rdv'])) {
         $message = "Veuillez remplir la date et l'heure du rendez-vous.";
         $message_color = "red";
     } else {
-        // Ajouter les secondes si manquent (format TIME)
-        if (strlen($heure) == 5) { // ex: 14:00
-            $heure .= ":00"; // devient 14:00:00
-        }
+        if (strlen($heure) == 5) $heure .= ":00"; // ex: 14:00 -> 14:00:00
 
         // Vérifier que le créneau n'est pas déjà pris
         $stmt_check_rdv = $conn->prepare(
@@ -100,64 +100,73 @@ $result = $stmt_rdv->get_result();
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Espace Patient</title>
-    <style>
-        table { border-collapse: collapse; }
-        th, td { padding: 5px 10px; border: 1px solid #000; text-align: center; }
-        .en_attente { background-color: #fffa99; }
-        .confirme { background-color: #a0f0a0; }
-        .annule { background-color: #f0a0a0; }
-    </style>
+<meta charset="UTF-8">
+<title>Espace Patient</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/yourkit.js" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="style_p.css">
 </head>
 <body>
-<h2>Bienvenue <?= htmlspecialchars($nom); ?> !</h2>
-<p>Ceci est votre espace patient.</p>
 
-<a href="logout.php">Déconnexion</a>
-<hr>
+<nav>
+    <a id="linkRdv" class="active">Mes rendez-vous</a>
+    <a id="linkPrendre">Prendre un rendez-vous</a>
+    <a href="logout.php">Déconnexion</a>
+</nav>
 
-<!-- Affichage des messages -->
-<?php if($message != ""): ?>
-    <p style="color:<?= $message_color; ?>"><?= htmlspecialchars($message); ?></p>
-<?php endif; ?>
+<div class="container section active" id="sectionRdv">
+    <h2>Mes rendez-vous</h2>
+    <?php if ($result->num_rows > 0): ?>
+        <table>
+            <thead>
+                <tr><th>Date</th><th>Heure</th><th>Statut</th></tr>
+            </thead>
+            <tbody>
+            <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['date_rdv']) ?></td>
+                    <td><?= htmlspecialchars($row['heure_rdv']) ?></td>
+                    <td><?= htmlspecialchars($row['statut']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Aucun rendez-vous prévu.</p>
+    <?php endif; ?>
+</div>
 
-<h3>Mes rendez-vous</h3>
-<?php
-if ($result->num_rows > 0) {
-    echo "<table>
-            <tr><th>Date</th><th>Heure</th><th>Statut</th></tr>";
-    while($row = $result->fetch_assoc()) {
-        $classe = htmlspecialchars($row['statut']);
-        echo "<tr class='{$classe}'>
-                <td>".htmlspecialchars($row['date_rdv'])."</td>
-                <td>".htmlspecialchars($row['heure_rdv'])."</td>
-                <td>".htmlspecialchars($row['statut'])."</td>
-              </tr>";
-    }
-    echo "</table>";
-} else {
-    echo "<p>Vous n'avez aucun rendez-vous pour le moment.</p>";
-}
-$stmt_rdv->close();
-?>
+<div class="container section" id="sectionPrendre">
+    <h2>Prendre un nouveau rendez-vous</h2>
+    <form method="POST">
+        <label for="date">Date :</label>
+        <input type="date" name="date" id="date" required>
+        <label for="heure">Heure :</label>
+        <input type="time" name="heure" id="heure" required>
+        <button type="submit" name="rdv"><i class="fa-solid fa-paper-plane"></i> Envoyer</button>
+    </form>
+</div>
 
-<hr>
+<script>
+// Onglets simples
+const linkRdv = document.getElementById('linkRdv');
+const linkPrendre = document.getElementById('linkPrendre');
+const sectionRdv = document.getElementById('sectionRdv');
+const sectionPrendre = document.getElementById('sectionPrendre');
 
-<h3>Prendre un nouveau rendez-vous</h3>
-<form method="POST" action="">
-    <label for="date">Date :</label>
-    <input type="date" name="date" id="date" required><br><br>
-
-    <label for="heure">Heure :</label>
-    <input type="time" name="heure" id="heure" required><br><br>
-
-    <button type="submit" name="rdv">Envoyer la demande</button>
-</form>
+linkRdv.addEventListener('click', ()=>{
+    sectionRdv.classList.add('active');
+    sectionPrendre.classList.remove('active');
+    linkRdv.classList.add('active');
+    linkPrendre.classList.remove('active');
+});
+linkPrendre.addEventListener('click', ()=>{
+    sectionRdv.classList.remove('active');
+    sectionPrendre.classList.add('active');
+    linkRdv.classList.remove('active');
+    linkPrendre.classList.add('active');
+});
+</script>
 
 </body>
 </html>
-
-<?php
-$conn->close();
-?>
