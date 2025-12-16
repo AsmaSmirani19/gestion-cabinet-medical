@@ -100,22 +100,271 @@ $result = $stmt_rdv->get_result();
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Espace Patient</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/yourkit.js" crossorigin="anonymous"></script>
- <link rel="stylesheet" href="style_p.css">
+    <meta charset="UTF-8">
+    <title>Espace Patient</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* --- RESET ET BODY --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 14px 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            background: rgba(111,177,252,0.75);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            z-index: 1000;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(147, 197, 253, 0.25);
+        }
+
+        nav a.active {
+            border: 2px solid rgba(255,255,255,0.7);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            margin-top: 100px;
+            width: 90%;
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        /* --- TITRES --- */
+        h2 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* --- TABLE --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+
+        table thead tr {
+            background: rgba(79,140,255,0.1);
+            color: #34495e;
+            font-weight: 600;
+        }
+
+        table thead th {
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        table tbody tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        table td {
+            padding: 12px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        table tbody tr:hover {
+            background: #f2f6ff;
+            transition: 0.2s;
+        }
+
+        /* --- FORMULAIRE --- */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        form label {
+            font-weight: 600;
+            color: #34495e;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        form label i {
+            color: rgba(111,177,252,0.75);
+        }
+
+        form input[type="date"],
+        form input[type="time"] {
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px solid #e1e8ed;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        form input[type="date"]:focus,
+        form input[type="time"]:focus {
+            border-color: rgba(111,177,252,0.75);
+            outline: none;
+            box-shadow: 0 0 10px rgba(111,177,252,0.4);
+            background: #fff;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.35);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s ease;
+            font-size: 16px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            align-self: center;
+        }
+
+        .btn-submit:hover {
+            filter: brightness(1.08);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        /* --- ALERT --- */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+
+        .alert i {
+            font-size: 18px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            nav {
+                gap: 15px;
+                padding: 10px 0;
+            }
+
+            nav a {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 20px;
+                margin-top: 80px;
+            }
+
+            form {
+                gap: 15px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            table th, table td {
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <nav>
-    <a id="linkRdv" class="active">Mes rendez-vous</a>
-    <a id="linkPrendre">Prendre un rendez-vous</a>
-    <a href="logout.php">Déconnexion</a>
+    <a id="linkRdv" class="active"><i class="fa-solid fa-calendar-days"></i> Mes rendez-vous</a>
+    <a id="linkPrendre"><i class="fa-solid fa-calendar-plus"></i> Prendre un rendez-vous</a>
+    <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
 </nav>
 
 <div class="container section active" id="sectionRdv">
-    <h2>Mes rendez-vous</h2>
+    <h2><i class="fa-solid fa-calendar-check"></i> Mes rendez-vous</h2>
+    <?php if (!empty($message)): ?>
+        <div class="alert <?php echo ($message_color == 'green') ? 'alert-success' : 'alert-danger'; ?>">
+            <i class="fa-solid <?php echo ($message_color == 'green') ? 'fa-check-circle' : 'fa-exclamation-triangle'; ?>"></i>
+            <?= htmlspecialchars($message) ?>
+        </div>
+    <?php endif; ?>
     <?php if ($result->num_rows > 0): ?>
         <table>
             <thead>
@@ -126,24 +375,47 @@ $result = $stmt_rdv->get_result();
                 <tr>
                     <td><?= htmlspecialchars($row['date_rdv']) ?></td>
                     <td><?= htmlspecialchars($row['heure_rdv']) ?></td>
-                    <td><?= htmlspecialchars($row['statut']) ?></td>
+                    <td>
+                        <?php
+                        $statut = htmlspecialchars($row['statut']);
+                        if ($statut == 'en_attente') {
+                            echo '<span style="color:orange;font-weight:bold;">⏳ En attente</span>';
+                        } elseif ($statut == 'confirme') {
+                            echo '<span style="color:green;font-weight:bold;">✔ Confirmé</span>';
+                        } else {
+                            echo '<span style="color:red;font-weight:bold;">✖ Annulé</span>';
+                        }
+                        ?>
+                    </td>
                 </tr>
             <?php endwhile; ?>
             </tbody>
         </table>
     <?php else: ?>
-        <p>Aucun rendez-vous prévu.</p>
+        <p style="text-align: center; color: #666;">Aucun rendez-vous prévu.</p>
     <?php endif; ?>
 </div>
 
 <div class="container section" id="sectionPrendre">
-    <h2>Prendre un nouveau rendez-vous</h2>
+    <h2><i class="fa-solid fa-calendar-plus"></i> Prendre un nouveau rendez-vous</h2>
+    <?php if (!empty($message)): ?>
+        <div class="alert <?php echo ($message_color == 'green') ? 'alert-success' : 'alert-danger'; ?>">
+            <i class="fa-solid <?php echo ($message_color == 'green') ? 'fa-check-circle' : 'fa-exclamation-triangle'; ?>"></i>
+            <?= htmlspecialchars($message) ?>
+        </div>
+    <?php endif; ?>
     <form method="POST">
-        <label for="date">Date :</label>
-        <input type="date" name="date" id="date" required>
-        <label for="heure">Heure :</label>
-        <input type="time" name="heure" id="heure" required>
-        <button type="submit" name="rdv"><i class="fa-solid fa-paper-plane"></i> Envoyer</button>
+        <div class="form-group">
+            <label for="date"><i class="fa-solid fa-calendar"></i> Date :</label>
+            <input type="date" name="date" id="date" required>
+        </div>
+        <div class="form-group">
+            <label for="heure"><i class="fa-solid fa-clock"></i> Heure :</label>
+            <input type="time" name="heure" id="heure" required>
+        </div>
+        <button type="submit" name="rdv" class="btn-submit">
+            <i class="fa-solid fa-paper-plane"></i> Envoyer
+        </button>
     </form>
 </div>
 

@@ -253,11 +253,14 @@ footer{
             <p>Gestion des rendez-vous, patients et planning médical</p>
         </a>
 
-        <a href="dashboard_medecin.php" class="role-card">
+        <a href="login_medecin.php" id="openMedLogin" class="role-card">
             <i class="fa-solid fa-stethoscope"></i>
             <h3>Espace Médecin</h3>
             <p>Consultations, diagnostics et dossiers patients</p>
         </a>
+
+
+
     </div>
 </section>
 

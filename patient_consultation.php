@@ -204,6 +204,7 @@ $patient = $res_patient->fetch_assoc();
     <?php else : ?>
         <p style="text-align:center;color:#666;">Aucune consultation enregistrée.</p>
     <?php endif; ?>
+    <a href="dashboard_medecin.php"> Retour au tableau de bord</a>
 
 </div>
 

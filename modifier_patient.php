@@ -75,6 +75,7 @@ if (isset($_POST['update_patient'])) {
         echo "<div style='color:red;'>Erreur : " . $stmt->error . "</div>";
     }
 }
+
 ?>
 
 
@@ -275,6 +276,7 @@ if (isset($_POST['update_patient'])) {
             <button type="submit" name="update_patient" class="btn-update">
                 <i class="fa-solid fa-save"></i> Mettre à jour
             </button>
+            <a href="dashboard_medecin.php"> Retour au tableau de bord</a>
         </form>
     </div>
 </div>
